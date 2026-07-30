@@ -829,24 +829,79 @@ yearSelect.addEventListener('change', updateYearDependentFields);
     }
   }
 }
+window.handleDonate = function (e) {
+  e.preventDefault();
 
-      // Summary (replace with Paystack init later)
-      let summary = `Thank you, ${name}!\n\n`;
-      summary += `APSUnian: ${isApsunian ? 'Yes' : 'No'}\n`;
-      if (isApsunian) {
-  summary += `Year Group: ${yearGroup}\n`;
-  if (yearGroup === '2002') {
-    summary += `Class: ${classGroup}\n`;
-    summary += `House: ${house}\n`;
+  const name         = document.getElementById('name').value.trim();
+  const email        = document.getElementById('email').value.trim();
+  const phone        = document.getElementById('phone').value.trim();
+  const customAmount = document.getElementById('customAmount').value;
+  const isApsunian   = apsuYes.classList.contains('active');
+  const yearGroup    = yearSelect.value;
+  const classGroup   = document.getElementById('classGroup').value;
+  const house        = document.getElementById('house').value;
+
+  let amount = selectedAmount;
+  if (customAmount) amount = parseFloat(customAmount);
+
+  if (!amount || amount < 10) {
+    alert('Please select or enter a valid amount (minimum GH¢10)');
+    return;
   }
-}
-      summary += `Amount: GH¢${Number(amount).toLocaleString()}\n\n`;
-      summary += `(Connect Paystack here)`;
 
-      console.log({ name, email, phone, isApsunian, yearGroup, classGroup, house, amount });
-      alert(summary);
-    };
+  if (!apsuYes.classList.contains('active') && !apsuNo.classList.contains('active')) {
+    alert('Please indicate if you are an APSUnian');
+    return;
+  }
+
+  if (isApsunian) {
+    if (!yearGroup) {
+      alert('Please select your year group');
+      return;
+    }
+    if (yearGroup === '2002') {
+      if (!classGroup) {
+        alert('Please select your class');
+        return;
+      }
+      if (!house) {
+        alert('Please select your house');
+        return;
+      }
+    }
+  }
+// ---- Paystack ----
+  const amountInPesewas = Math.round(amount * 100); // GH¢ → pesewas
+
+  const handler = PaystackPop.setup({
+    key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx', // ← paste your Paystack PUBLIC key here
+    email: email,
+    amount: amountInPesewas,
+    currency: 'GHS',
+    ref: 'APSU_' + Date.now(),
+    metadata: {
+      custom_fields: [
+        { display_name: 'Full Name', variable_name: 'full_name', value: name },
+        { display_name: 'Phone', variable_name: 'phone', value: phone || 'N/A' },
+        { display_name: 'APSUnian', variable_name: 'apsunian', value: isApsunian ? 'Yes' : 'No' },
+        { display_name: 'Year Group', variable_name: 'year_group', value: yearGroup || 'N/A' },
+        { display_name: 'Class', variable_name: 'class', value: classGroup || 'N/A' },
+        { display_name: 'House', variable_name: 'house', value: house || 'N/A' }
+      ]
+    },
+    callback: function (response) {
+      // Payment successful
+      alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + response.reference);
+      // Optional: redirect to a success page
+      // window.location.href = 'success.html?ref=' + response.reference;
+    },
+    onClose: function () {
+      // User closed the popup without paying
+    }
   });
+
+  handler.openIframe();
+};
   </script>
 </body>
 </html>
