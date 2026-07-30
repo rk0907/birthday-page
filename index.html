@@ -743,42 +743,48 @@
     });
 
     // APSUnian toggle
-    const yearGroupSection = document.getElementById('yearGroupSection');
-    const classSection     = document.getElementById('classSection');
-    const houseSection     = document.getElementById('houseSection');
-    const apsuYes          = document.getElementById('apsuYes');
-    const apsuNo           = document.getElementById('apsuNo');
+const yearGroupSection = document.getElementById('yearGroupSection');
+const classSection     = document.getElementById('classSection');
+const houseSection     = document.getElementById('houseSection');
+const apsuYes          = document.getElementById('apsuYes');
+const apsuNo           = document.getElementById('apsuNo');
 
-    apsuYes.addEventListener('click', () => {
-      apsuYes.classList.add('active');
-      apsuNo.classList.remove('active');
-      yearGroupSection.classList.remove('hidden');
-      houseSection.classList.remove('hidden');
-      classSection.classList.add('hidden');
-      yearSelect.value = '';
-      document.getElementById('classGroup').value = '';
-    });
+function updateYearDependentFields() {
+  const year = yearSelect.value;
+  if (year === '2002') {
+    classSection.classList.remove('hidden');
+    houseSection.classList.remove('hidden');
+  } else {
+    classSection.classList.add('hidden');
+    houseSection.classList.add('hidden');
+    document.getElementById('classGroup').value = '';
+    document.getElementById('house').value = '';
+  }
+}
 
-    apsuNo.addEventListener('click', () => {
-      apsuNo.classList.add('active');
-      apsuYes.classList.remove('active');
-      yearGroupSection.classList.add('hidden');
-      classSection.classList.add('hidden');
-      houseSection.classList.add('hidden');
-      yearSelect.value = '';
-      document.getElementById('classGroup').value = '';
-      document.getElementById('house').value = '';
-    });
+// Yes → show Year Group, default to 2002 (which reveals Class + House)
+apsuYes.addEventListener('click', () => {
+  apsuYes.classList.add('active');
+  apsuNo.classList.remove('active');
+  yearGroupSection.classList.remove('hidden');
+  yearSelect.value = '2002';
+  updateYearDependentFields();
+});
 
-    // Show class only for 2002
-    yearSelect.addEventListener('change', function () {
-      if (this.value === '2002') {
-        classSection.classList.remove('hidden');
-      } else {
-        classSection.classList.add('hidden');
-        document.getElementById('classGroup').value = '';
-      }
-    });
+// No → hide everything
+apsuNo.addEventListener('click', () => {
+  apsuNo.classList.add('active');
+  apsuYes.classList.remove('active');
+  yearGroupSection.classList.add('hidden');
+  classSection.classList.add('hidden');
+  houseSection.classList.add('hidden');
+  yearSelect.value = '';
+  document.getElementById('classGroup').value = '';
+  document.getElementById('house').value = '';
+});
+
+// When year changes: Class + House only for 2002
+yearSelect.addEventListener('change', updateYearDependentFields);
 
     // Form submit
     window.handleDonate = function (e) {
