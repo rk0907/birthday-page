@@ -713,22 +713,22 @@
     <div class="footer-bottom">© 2026 APSU 2002 Fundraiser · All rights reserved</div>
   </footer>
 
-   <!-- Paystack Inline  ← PUT IT HERE -->
+  <!-- Paystack Inline -->
   <script src="https://js.paystack.co/v1/inline.js"></script>
-  
-  <script>
 
-    document.addEventListener('DOMContentLoaded', function () {
-    // Generate year groups 2026 → 1980
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // Year groups 2026 → 1975
     const yearSelect = document.getElementById('yearGroup');
-    for (let y = 2026; y >= 1980; y--) {
+    for (let y = 2026; y >= 1975; y--) {
       const opt = document.createElement('option');
       opt.value = y;
       opt.textContent = y;
       yearSelect.appendChild(opt);
     }
 
-    // Amount selection
+    // Amount buttons
     let selectedAmount = 100;
     document.querySelectorAll('.amount-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -747,50 +747,46 @@
     });
 
     // APSUnian toggle
-const yearGroupSection = document.getElementById('yearGroupSection');
-const classSection     = document.getElementById('classSection');
-const houseSection     = document.getElementById('houseSection');
-const apsuYes          = document.getElementById('apsuYes');
-const apsuNo           = document.getElementById('apsuNo');
+    const yearGroupSection = document.getElementById('yearGroupSection');
+    const classSection     = document.getElementById('classSection');
+    const houseSection     = document.getElementById('houseSection');
+    const apsuYes          = document.getElementById('apsuYes');
+    const apsuNo           = document.getElementById('apsuNo');
 
-function updateYearDependentFields() {
-  const year = yearSelect.value;
-  if (year === '2002') {
-    classSection.classList.remove('hidden');
-    houseSection.classList.remove('hidden');
-  } else {
-    classSection.classList.add('hidden');
-    houseSection.classList.add('hidden');
-    document.getElementById('classGroup').value = '';
-    document.getElementById('house').value = '';
-  }
-}
+    function updateYearDependentFields() {
+      if (yearSelect.value === '2002') {
+        classSection.classList.remove('hidden');
+        houseSection.classList.remove('hidden');
+      } else {
+        classSection.classList.add('hidden');
+        houseSection.classList.add('hidden');
+        document.getElementById('classGroup').value = '';
+        document.getElementById('house').value = '';
+      }
+    }
 
-// Yes → show Year Group, default to 2002 (which reveals Class + House)
-apsuYes.addEventListener('click', () => {
-  apsuYes.classList.add('active');
-  apsuNo.classList.remove('active');
-  yearGroupSection.classList.remove('hidden');
-  yearSelect.value = '2002';
-  updateYearDependentFields();
-});
+    apsuYes.addEventListener('click', () => {
+      apsuYes.classList.add('active');
+      apsuNo.classList.remove('active');
+      yearGroupSection.classList.remove('hidden');
+      yearSelect.value = '2002';
+      updateYearDependentFields();
+    });
 
-// No → hide everything
-apsuNo.addEventListener('click', () => {
-  apsuNo.classList.add('active');
-  apsuYes.classList.remove('active');
-  yearGroupSection.classList.add('hidden');
-  classSection.classList.add('hidden');
-  houseSection.classList.add('hidden');
-  yearSelect.value = '';
-  document.getElementById('classGroup').value = '';
-  document.getElementById('house').value = '';
-});
+    apsuNo.addEventListener('click', () => {
+      apsuNo.classList.add('active');
+      apsuYes.classList.remove('active');
+      yearGroupSection.classList.add('hidden');
+      classSection.classList.add('hidden');
+      houseSection.classList.add('hidden');
+      yearSelect.value = '';
+      document.getElementById('classGroup').value = '';
+      document.getElementById('house').value = '';
+    });
 
-// When year changes: Class + House only for 2002
-yearSelect.addEventListener('change', updateYearDependentFields);
+    yearSelect.addEventListener('change', updateYearDependentFields);
 
-    // Form submit
+    // Donate + Paystack (only ONE handleDonate)
     window.handleDonate = function (e) {
       e.preventDefault();
 
@@ -816,97 +812,52 @@ yearSelect.addEventListener('change', updateYearDependentFields);
         return;
       }
 
-   if (isApsunian) {
-  if (!yearGroup) {
-    alert('Please select your year group');
-    return;
-  }
-  // Class and House only required for 2002
-  if (yearGroup === '2002') {
-    if (!classGroup) {
-      alert('Please select your class');
-      return;
-    }
-    if (!house) {
-      alert('Please select your house');
-      return;
-    }
-  }
-}
-window.handleDonate = function (e) {
-  e.preventDefault();
-
-  const name         = document.getElementById('name').value.trim();
-  const email        = document.getElementById('email').value.trim();
-  const phone        = document.getElementById('phone').value.trim();
-  const customAmount = document.getElementById('customAmount').value;
-  const isApsunian   = apsuYes.classList.contains('active');
-  const yearGroup    = yearSelect.value;
-  const classGroup   = document.getElementById('classGroup').value;
-  const house        = document.getElementById('house').value;
-
-  let amount = selectedAmount;
-  if (customAmount) amount = parseFloat(customAmount);
-
-  if (!amount || amount < 10) {
-    alert('Please select or enter a valid amount (minimum GH¢10)');
-    return;
-  }
-
-  if (!apsuYes.classList.contains('active') && !apsuNo.classList.contains('active')) {
-    alert('Please indicate if you are an APSUnian');
-    return;
-  }
-
-  if (isApsunian) {
-    if (!yearGroup) {
-      alert('Please select your year group');
-      return;
-    }
-    if (yearGroup === '2002') {
-      if (!classGroup) {
-        alert('Please select your class');
-        return;
+      if (isApsunian) {
+        if (!yearGroup) {
+          alert('Please select your year group');
+          return;
+        }
+        if (yearGroup === '2002') {
+          if (!classGroup) {
+            alert('Please select your class');
+            return;
+          }
+          if (!house) {
+            alert('Please select your house');
+            return;
+          }
+        }
       }
-      if (!house) {
-        alert('Please select your house');
-        return;
-      }
-    }
-  }
 
-  // ---- Paystack ----
-  const amountInPesewas = Math.round(amount * 100); // GH¢ → pesewas
+      const amountInPesewas = Math.round(amount * 100);
 
-  const handler = PaystackPop.setup({
-    key: 'pk_test_7ef8a30ba117b553c81bbebdfd8c4ed97bcf15e5', // ← paste your Paystack PUBLIC key here
-    email: email,
-    amount: amountInPesewas,
-    currency: 'GHS',
-    ref: 'APSU_' + Date.now(),
-    metadata: {
-      custom_fields: [
-        { display_name: 'Full Name', variable_name: 'full_name', value: name },
-        { display_name: 'Phone', variable_name: 'phone', value: phone || 'N/A' },
-        { display_name: 'APSUnian', variable_name: 'apsunian', value: isApsunian ? 'Yes' : 'No' },
-        { display_name: 'Year Group', variable_name: 'year_group', value: yearGroup || 'N/A' },
-        { display_name: 'Class', variable_name: 'class', value: classGroup || 'N/A' },
-        { display_name: 'House', variable_name: 'house', value: house || 'N/A' }
-      ]
-    },
-    callback: function (response) {
-      // Payment successful
-      alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + response.reference);
-      // Optional: redirect to a success page
-      // window.location.href = 'success.html?ref=' + response.reference;
-    },
-    onClose: function () {
-      // User closed the popup without paying
-    }
-  });
+      const handler = PaystackPop.setup({
+        key: 'pk_test_7ef8a30ba117b553c81bbebdfd8c4ed97bcf15e5',
+        email: email,
+        amount: amountInPesewas,
+        currency: 'GHS',
+        ref: 'APSU_' + Date.now(),
+        metadata: {
+          custom_fields: [
+            { display_name: 'Full Name', variable_name: 'full_name', value: name },
+            { display_name: 'Phone', variable_name: 'phone', value: phone || 'N/A' },
+            { display_name: 'APSUnian', variable_name: 'apsunian', value: isApsunian ? 'Yes' : 'No' },
+            { display_name: 'Year Group', variable_name: 'year_group', value: yearGroup || 'N/A' },
+            { display_name: 'Class', variable_name: 'class', value: classGroup || 'N/A' },
+            { display_name: 'House', variable_name: 'house', value: house || 'N/A' }
+          ]
+        },
+        callback: function (response) {
+          alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + response.reference);
+        },
+        onClose: function () {}
+      });
 
-  handler.openIframe();
-};
+      handler.openIframe();
+    };
+
+  }); // end DOMContentLoaded
   </script>
 </body>
 </html>
+
