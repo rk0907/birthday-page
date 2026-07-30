@@ -812,29 +812,34 @@ yearSelect.addEventListener('change', updateYearDependentFields);
         return;
       }
 
-      if (isApsunian) {
-        if (!yearGroup) {
-          alert('Please select your year group');
-          return;
-        }
-        if (yearGroup === '2002' && !classGroup) {
-          alert('Please select your class');
-          return;
-        }
-        if (!house) {
-          alert('Please select your house');
-          return;
-        }
-      }
+   if (isApsunian) {
+  if (!yearGroup) {
+    alert('Please select your year group');
+    return;
+  }
+  // Class and House only required for 2002
+  if (yearGroup === '2002') {
+    if (!classGroup) {
+      alert('Please select your class');
+      return;
+    }
+    if (!house) {
+      alert('Please select your house');
+      return;
+    }
+  }
+}
 
       // Summary (replace with Paystack init later)
       let summary = `Thank you, ${name}!\n\n`;
       summary += `APSUnian: ${isApsunian ? 'Yes' : 'No'}\n`;
       if (isApsunian) {
-        summary += `Year Group: ${yearGroup}\n`;
-        if (yearGroup === '2002') summary += `Class: ${classGroup}\n`;
-        summary += `House: ${house}\n`;
-      }
+  summary += `Year Group: ${yearGroup}\n`;
+  if (yearGroup === '2002') {
+    summary += `Class: ${classGroup}\n`;
+    summary += `House: ${house}\n`;
+  }
+}
       summary += `Amount: GH¢${Number(amount).toLocaleString()}\n\n`;
       summary += `(Connect Paystack here)`;
 
