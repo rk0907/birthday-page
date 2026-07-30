@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APSU 2002 – Teachers' Accommodation Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* ========== WISE-INSPIRED DESIGN SYSTEM ========== */
+    :root {
+      /* Core Wise palette adapted for APSU */
+      --primary: #9fe870;           /* Wise bright green */
+      --primary-hover: #cdffad;
+      --on-primary: #0e0f0c;
+      --forest: #163300;            /* Wise forest green */
+      --ink: #0e0f0c;
+      --body: #454745;
+      --mute: #868685;
+      --canvas: #ffffff;
+      --canvas-soft: #e8ebe6;       /* Sage tint */
+      --border: #d6d9d3;
+      --card: #ffffff;
+      --positive: #2ead4b;
+
+      /* APSU accent (kept for heritage) */
+      --apsu-green: #00843D;
+      --apsu-dark: #004D26;
+
+      /* Spacing & radius */
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 9999px;
+
+      /* Typography */
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--canvas-soft);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== NAVBAR ========== */
+    .navbar {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 1.5rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--forest);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      background: var(--primary);
+      color: var(--on-primary) !important;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--canvas-soft) 0%, #f4f6f1 100%);
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--body);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow span {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      max-width: 780px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .hero h1 .highlight {
+      color: var(--apsu-green);
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--body);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 0.95rem 1.9rem;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(159, 232, 112, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(159, 232, 112, 0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: var(--ink);
+      padding: 0.95rem 1.9rem;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--ink);
+      background: #fafafa;
+    }
+
+    /* Trust bar */
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      flex-wrap: wrap;
+      color: var(--mute);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .trust-item i { color: var(--apsu-green); }
+
+    /* ========== CARDS / IMPACT ========== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header p {
+      color: var(--body);
+      font-size: 1.1rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--canvas-soft);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 1.25rem;
+      color: var(--apsu-green);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      font-size: 0.975rem;
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    /* ========== DONATION SECTION ========== */
+    .donate-section {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      margin: 0 auto 5rem;
+      padding: 2.75rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .donate-section h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .donate-section > .subtitle {
+      text-align: center;
+      color: var(--body);
+      font-size: 1rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.35rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.45rem;
+      color: var(--ink);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.9rem 1.1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fafafa;
+      color: var(--ink);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--apsu-green);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(0, 132, 61, 0.12);
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23454745' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+    }
+
+    /* Amount buttons */
+    .amount-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+    }
+
+    .amount-btn {
+      padding: 0.9rem 0.4rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fafafa;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--ink);
+      font-family: inherit;
+    }
+
+    .amount-btn:hover {
+      border-color: var(--apsu-green);
+      background: white;
+    }
+
+    .amount-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(159, 232, 112, 0.3);
+    }
+
+    /* Yes / No toggle */
+    .toggle-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fafafa;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--ink);
+      font-family: inherit;
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--apsu-green);
+    }
+
+    .toggle-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .form-divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 1.75rem 0;
+    }
+
+    .donate-btn {
+      width: 100%;
+      margin-top: 0.75rem;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 1.1rem;
+      border-radius: var(--radius-pill);
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      box-shadow: 0 2px 10px rgba(159, 232, 112, 0.35);
+    }
+
+    .donate-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(159, 232, 112, 0.45);
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      background: var(--forest);
+      color: #e8ebe6;
+      padding: 4rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-tagline {
+      color: rgba(232, 235, 230, 0.75);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .footer-icons a {
+      color: rgba(232, 235, 230, 0.7);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .footer-icons a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      color: rgba(232, 235, 230, 0.55);
+      font-size: 0.85rem;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .donate-section { padding: 1.75rem; margin: 0 1rem 4rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+    }
+
+    @media (max-width: 500px) {
+      .amount-options { grid-template-columns: repeat(2, 1fr); }
+      .trust-bar { gap: 1.25rem; }
+    }
+
+    /* Hidden sections */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <div class="logo-mark">A2</div>
+      APSU 2002
+    </a>
+    <ul class="nav-links">
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#donate">Donate</a></li>
+      <li><a href="#donate" class="nav-cta">Give now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span></span>
+      Project Bolt · 14-Unit Teachers' Home
+    </div>
+    <h1>Help build homes<br>for our <span class="highlight">teachers</span></h1>
+    <p class="hero-sub">
+      Housing for educators is a lasting investment. Support the 14-unit Teachers’ Accommodation Project and give every APSUnian teacher a place to call home.
+    </p>
+    <div class="hero-actions">
+      <a href="#donate" class="btn-primary">
+        Donate now
+        <i class="fas fa-arrow-right" style="font-size:0.9rem"></i>
+      </a>
+      <a href="#impact" class="btn-secondary">See the impact</a>
+    </div>
+
+    <div class="trust-bar">
+      <div class="trust-item"><i class="fas fa-shield-alt"></i> Secure donations</div>
+      <div class="trust-item"><i class="fas fa-users"></i> Every APSUnian counts</div>
+      <div class="trust-item"><i class="fas fa-home"></i> 14 units planned</div>
+    </div>
+  </section>
+
+  <!-- IMPACT CARDS -->
+  <section class="section" id="impact">
+    <div class="section-header">
+      <h2>Why this matters</h2>
+      <p>When teachers have stable housing near their schools, students benefit from more consistent, focused education.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-building"></i></div>
+        <h3>The Project</h3>
+        <p>A modern 14-unit facility that will provide safe, comfortable homes for teachers who shape the next generation of APSUnians.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-heart"></i></div>
+        <h3>Why It Matters</h3>
+        <p>Stable housing near school means teachers can focus on teaching instead of commuting or housing stress. Students feel the difference.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-hand-holding-heart"></i></div>
+        <h3>Who Should Give</h3>
+        <p>Every APSUnian and affiliate should contribute their quota to the development of our Great College. Action Nkotsii.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DONATION FORM -->
+  <section id="donate" style="padding: 0 1.5rem 2rem;">
+    <div class="donate-section">
+      <h2>Make a donation</h2>
+      <p class="subtitle">Every cedi helps build homes for our teachers</p>
+
+      <form id="donationForm" onsubmit="handleDonate(event)">
+        <!-- Amount -->
+        <div class="form-group">
+          <label>Select amount</label>
+          <div class="amount-options">
+            <button type="button" class="amount-btn active" data-amount="100">GH¢100</button>
+            <button type="button" class="amount-btn" data-amount="250">GH¢250</button>
+            <button type="button" class="amount-btn" data-amount="500">GH¢500</button>
+            <button type="button" class="amount-btn" data-amount="1000">GH¢1,000</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customAmount">Or enter a custom amount (GH¢)</label>
+          <input type="number" id="customAmount" name="customAmount" min="10" placeholder="e.g. 150">
+        </div>
+
+        <hr class="form-divider">
+
+        <!-- Details -->
+        <div class="form-group">
+          <label for="name">Full name *</label>
+          <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address *</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+233 20 000 0000">
+        </div>
+
+        <!-- APSUnian? -->
+        <div class="form-group">
+          <label>Are you an APSUnian? *</label>
+          <div class="toggle-row">
+            <button type="button" class="toggle-btn" id="apsuYes">Yes</button>
+            <button type="button" class="toggle-btn" id="apsuNo">No</button>
+          </div>
+        </div>
+
+        <!-- Year Group -->
+        <div class="form-group hidden" id="yearGroupSection">
+          <label for="yearGroup">Year group *</label>
+          <select id="yearGroup" name="yearGroup">
+            <option value="" disabled selected>Select your year group</option>
+          </select>
+        </div>
+
+        <!-- Class (2002 only) -->
+        <div class="form-group hidden" id="classSection">
+          <label for="classGroup">Class *</label>
+          <select id="classGroup" name="classGroup">
+            <option value="" disabled selected>Select your class</option>
+            <option value="Art 1">Art 1</option>
+            <option value="Art 2">Art 2</option>
+            <option value="Business 1">Business 1</option>
+            <option value="Business 2">Business 2</option>
+            <option value="Business 3">Business 3</option>
+            <option value="Science 1">Science 1</option>
+            <option value="Science 2">Science 2</option>
+            <option value="Science 3">Science 3</option>
+            <option value="Science 4">Science 4</option>
+            <option value="Science 5">Science 5</option>
+          </select>
+        </div>
+
+        <!-- House -->
+        <div class="form-group hidden" id="houseSection">
+          <label for="house">House *</label>
+          <select id="house" name="house">
+            <option value="" disabled selected>Select your house</option>
+            <option value="St. John's">St. John's</option>
+            <option value="St. Peter's">St. Peter's</option>
+            <option value="Fr Glynn">Fr Glynn</option>
+            <option value="Fr Kelly">Fr Kelly</option>
+            <option value="St George's">St George's</option>
+            <option value="St Luke's">St Luke's</option>
+            <option value="St Theresa's">St Theresa's</option>
+            <option value="St. Stephen's">St. Stephen's</option>
+            <option value="St Patrick's">St Patrick's</option>
+            <option value="St Joseph's">St Joseph's</option>
+            <option value="Nduom">Nduom</option>
+          </select>
+        </div>
+
+        <button type="submit" class="donate-btn">Donate now</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">APSU 2002</div>
+    <p class="footer-tagline">Building homes for our teachers · Action Nkotsii</p>
+    <div class="footer-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <div class="footer-bottom">© 2026 APSU 2002 Fundraiser · All rights reserved</div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Generate year groups 2026 → 1980
+    const yearSelect = document.getElementById('yearGroup');
+    for (let y = 2026; y >= 1980; y--) {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearSelect.appendChild(opt);
+    }
+
+    // Amount selection
+    let selectedAmount = 100;
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedAmount = parseInt(btn.dataset.amount, 10);
+        document.getElementById('customAmount').value = '';
+      });
+    });
+
+    document.getElementById('customAmount').addEventListener('input', function () {
+      if (this.value) {
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        selectedAmount = null;
+      }
+    });
+
+    // APSUnian toggle
+    const yearGroupSection = document.getElementById('yearGroupSection');
+    const classSection     = document.getElementById('classSection');
+    const houseSection     = document.getElementById('houseSection');
+    const apsuYes          = document.getElementById('apsuYes');
+    const apsuNo           = document.getElementById('apsuNo');
+
+    apsuYes.addEventListener('click', () => {
+      apsuYes.classList.add('active');
+      apsuNo.classList.remove('active');
+      yearGroupSection.classList.remove('hidden');
+      houseSection.classList.remove('hidden');
+      classSection.classList.add('hidden');
+      yearSelect.value = '';
+      document.getElementById('classGroup').value = '';
+    });
+
+    apsuNo.addEventListener('click', () => {
+      apsuNo.classList.add('active');
+      apsuYes.classList.remove('active');
+      yearGroupSection.classList.add('hidden');
+      classSection.classList.add('hidden');
+      houseSection.classList.add('hidden');
+      yearSelect.value = '';
+      document.getElementById('classGroup').value = '';
+      document.getElementById('house').value = '';
+    });
+
+    // Show class only for 2002
+    yearSelect.addEventListener('change', function () {
+      if (this.value === '2002') {
+        classSection.classList.remove('hidden');
+      } else {
+        classSection.classList.add('hidden');
+        document.getElementById('classGroup').value = '';
+      }
+    });
+
+    // Form submit
+    window.handleDonate = function (e) {
+      e.preventDefault();
+
+      const name         = document.getElementById('name').value.trim();
+      const email        = document.getElementById('email').value.trim();
+      const phone        = document.getElementById('phone').value.trim();
+      const customAmount = document.getElementById('customAmount').value;
+      const isApsunian   = apsuYes.classList.contains('active');
+      const yearGroup    = yearSelect.value;
+      const classGroup   = document.getElementById('classGroup').value;
+      const house        = document.getElementById('house').value;
+
+      let amount = selectedAmount;
+      if (customAmount) amount = parseFloat(customAmount);
+
+      if (!amount || amount < 10) {
+        alert('Please select or enter a valid amount (minimum GH¢10)');
+        return;
+      }
+
+      if (!apsuYes.classList.contains('active') && !apsuNo.classList.contains('active')) {
+        alert('Please indicate if you are an APSUnian');
+        return;
+      }
+
+      if (isApsunian) {
+        if (!yearGroup) {
+          alert('Please select your year group');
+          return;
+        }
+        if (yearGroup === '2002' && !classGroup) {
+          alert('Please select your class');
+          return;
+        }
+        if (!house) {
+          alert('Please select your house');
+          return;
+        }
+      }
+
+      // Summary (replace with Paystack init later)
+      let summary = `Thank you, ${name}!\n\n`;
+      summary += `APSUnian: ${isApsunian ? 'Yes' : 'No'}\n`;
+      if (isApsunian) {
+        summary += `Year Group: ${yearGroup}\n`;
+        if (yearGroup === '2002') summary += `Class: ${classGroup}\n`;
+        summary += `House: ${house}\n`;
+      }
+      summary += `Amount: GH¢${Number(amount).toLocaleString()}\n\n`;
+      summary += `(Connect Paystack here)`;
+
+      console.log({ name, email, phone, isApsunian, yearGroup, classGroup, house, amount });
+      alert(summary);
+    };
+  });
+  </script>
+</body>
+</html>
