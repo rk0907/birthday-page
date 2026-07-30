@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impact – APSU 2002 Teachers' Accommodation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #9fe870;
+      --primary-hover: #cdffad;
+      --on-primary: #0e0f0c;
+      --forest: #163300;
+      --ink: #0e0f0c;
+      --body: #454745;
+      --mute: #868685;
+      --canvas: #ffffff;
+      --canvas-soft: #e8ebe6;
+      --border: #d6d9d3;
+      --card: #ffffff;
+      --apsu-green: #00843D;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 9999px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--canvas-soft);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 1.5rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--forest);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--ink); font-weight: 600; }
+
+    .nav-cta {
+      background: var(--primary);
+      color: var(--on-primary) !important;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 4.5rem 1.5rem 3.5rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--canvas-soft) 0%, #f4f6f1 100%);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--body);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-eyebrow span {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+
+    .hero h1 .highlight { color: var(--apsu-green); }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--body);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    /* SECTION COMMON */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-header p {
+      color: var(--body);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* BEFORE / AFTER SLIDER */
+    .ba-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      position: relative;
+      user-select: none;
+      aspect-ratio: 16 / 10;
+      background: #1a1a1a;
+    }
+
+    .ba-before,
+    .ba-after {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .ba-after {
+      clip-path: inset(0 0 0 50%);
+    }
+
+    .ba-label {
+      position: absolute;
+      top: 1rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(0,0,0,0.65);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: var(--radius-pill);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ba-label.before { left: 1rem; }
+    .ba-label.after { right: 1rem; }
+
+    .ba-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background: white;
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: ew-resize;
+    }
+
+    .ba-handle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    .ba-handle::after {
+      content: '⟷';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.1rem;
+      color: var(--ink);
+      z-index: 1;
+    }
+
+    /* Placeholder gradients for mock images */
+    .mock-site {
+      background: linear-gradient(135deg, #3d5a3d 0%, #2a3f2a 40%, #1e2e1e 100%);
+    }
+    .mock-site::after {
+      content: 'CURRENT SITE';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+    }
+
+    .mock-render {
+      background: linear-gradient(135deg, #4a7c59 0%, #2d5a3d 50%, #1a3d2a 100%);
+    }
+    .mock-render::after {
+      content: 'PROPOSED 14-UNIT BLOCK';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .stat-number {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--apsu-green);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--body);
+      font-weight: 500;
+    }
+
+    /* GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+      background: #2a3f2a;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+
+    .gallery-item .placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .gallery-item .placeholder i {
+      font-size: 1.75rem;
+      opacity: 0.7;
+    }
+
+    .gallery-item .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 1rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .gallery-item:hover .caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Colour variants for mock tiles */
+    .g1 { background: linear-gradient(145deg, #3d6b4f, #1e3d2a); }
+    .g2 { background: linear-gradient(145deg, #4a6b3d, #2a3d1e); }
+    .g3 { background: linear-gradient(145deg, #3d5a6b, #1e2e3d); }
+    .g4 { background: linear-gradient(145deg, #6b5a3d, #3d2e1e); }
+    .g5 { background: linear-gradient(145deg, #5a3d6b, #2e1e3d); }
+    .g6 { background: linear-gradient(145deg, #3d6b6b, #1e3d3d); }
+
+    /* STORY CARDS */
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .story-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .story-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+
+    .story-img {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.45);
+      font-size: 2.5rem;
+    }
+
+    .story-body {
+      padding: 1.5rem;
+    }
+
+    .story-body h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .story-body p {
+      font-size: 0.95rem;
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    .story-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--apsu-green);
+      background: rgba(0, 132, 61, 0.1);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
+      margin-bottom: 0.75rem;
+    }
+
+    /* CTA BAND */
+    .cta-band {
+      max-width: 900px;
+      margin: 1rem auto 4rem;
+      padding: 3rem 2rem;
+      background: var(--forest);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: white;
+    }
+
+    .cta-band h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .cta-band p {
+      color: rgba(232, 235, 230, 0.8);
+      margin-bottom: 1.75rem;
+      font-size: 1.05rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 0.95rem 1.9rem;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(159, 232, 112, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-content {
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .lightbox-caption {
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.75rem;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+    .lightbox-prev { left: 1rem; }
+    .lightbox-next { right: 1rem; }
+
+    /* FOOTER */
+    .footer {
+      background: var(--forest);
+      color: #e8ebe6;
+      padding: 3.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-tagline {
+      color: rgba(232, 235, 230, 0.75);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-icons a {
+      color: rgba(232, 235, 230, 0.7);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .footer-icons a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      color: rgba(232, 235, 230, 0.55);
+      font-size: 0.85rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .ba-wrap { aspect-ratio: 4 / 3; }
+    }
+
+    @media (max-width: 500px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">A2</div>
+      APSU 2002
+    </a>
+    <ul class="nav-links">
+      <li><a href="impact.html" class="active">Impact</a></li>
+      <li><a href="index.html#donate">Donate</a></li>
+      <li><a href="index.html#donate" class="nav-cta">Give now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span></span>
+      Project Bolt · Visual progress
+    </div>
+    <h1>See the <span class="highlight">impact</span> we’re building</h1>
+    <p class="hero-sub">
+      From empty ground to 14 modern homes for our teachers. Explore the vision, the need, and the difference every donation makes.
+    </p>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="section">
+    <div class="section-header">
+      <h2>From site to home</h2>
+      <p>Drag the slider to compare the current site with the proposed 14-unit teachers’ block.</p>
+    </div>
+
+    <div class="ba-wrap" id="baSlider">
+      <div class="ba-before mock-site"></div>
+      <div class="ba-after mock-render" id="baAfter"></div>
+      <span class="ba-label before">Now</span>
+      <span class="ba-label after">Proposed</span>
+      <div class="ba-handle" id="baHandle"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section" style="padding-top: 1rem;">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" data-target="14">0</div>
+        <div class="stat-label">Teacher units</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="28">0</div>
+        <div class="stat-label">Educators housed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="500">0</div>
+        <div class="stat-label">Students impacted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-target="42">0</div>
+        <div class="stat-label">% funded so far</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Project gallery</h2>
+      <p>Click any image to view larger. Replace these placeholders with real site and design photos.</p>
+    </div>
+
+    <div class="gallery-grid" id="gallery">
+      <div class="gallery-item g1" data-caption="Site survey – current grounds">
+        <div class="placeholder"><i class="fas fa-map-marked-alt"></i>Site survey</div>
+        <div class="caption">Site survey – current grounds</div>
+      </div>
+      <div class="gallery-item g2" data-caption="Architectural concept – front elevation">
+        <div class="placeholder"><i class="fas fa-drafting-compass"></i>Concept design</div>
+        <div class="caption">Architectural concept – front elevation</div>
+      </div>
+      <div class="gallery-item g3" data-caption="Typical unit – living area layout">
+        <div class="placeholder"><i class="fas fa-couch"></i>Unit interior</div>
+        <div class="caption">Typical unit – living area layout</div>
+      </div>
+      <div class="gallery-item g4" data-caption="Community courtyard concept">
+        <div class="placeholder"><i class="fas fa-tree"></i>Courtyard</div>
+        <div class="caption">Community courtyard concept</div>
+      </div>
+      <div class="gallery-item g5" data-caption="Foundation works – phase 1">
+        <div class="placeholder"><i class="fas fa-hard-hat"></i>Construction</div>
+        <div class="caption">Foundation works – phase 1</div>
+      </div>
+      <div class="gallery-item g6" data-caption="Teachers at APSU – the people we house">
+        <div class="placeholder"><i class="fas fa-chalkboard-teacher"></i>Our teachers</div>
+        <div class="caption">Teachers at APSU – the people we house</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIES -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Why housing matters</h2>
+      <p>Mock stories based on the real need. Replace with quotes from teachers when you have them.</p>
+    </div>
+
+    <div class="stories-grid">
+      <div class="story-card">
+        <div class="story-img g1"><i class="fas fa-home"></i></div>
+        <div class="story-body">
+          <span class="story-tag">Stability</span>
+          <h3>Closer to school</h3>
+          <p>Teachers who live on or near campus spend less time commuting and more time preparing lessons and supporting students after hours.</p>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-img g3"><i class="fas fa-users"></i></div>
+        <div class="story-body">
+          <span class="story-tag">Community</span>
+          <h3>A place to belong</h3>
+          <p>Shared housing builds a community of educators who can collaborate, mentor each other, and stay longer at the college.</p>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-img g5"><i class="fas fa-graduation-cap"></i></div>
+        <div class="story-body">
+          <span class="story-tag">Students</span>
+          <h3>Better outcomes</h3>
+          <p>When teachers are settled and focused, students get more consistent teaching, extracurricular support, and role models on campus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <h2>Help turn this vision into homes</h2>
+    <p>Every contribution moves Project Bolt closer to completion.</p>
+    <a href="index.html#donate" class="btn-primary">
+      Donate now
+      <i class="fas fa-arrow-right" style="font-size:0.9rem"></i>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">APSU 2002</div>
+    <p class="footer-tagline">Building homes for our teachers · Action Nkotsii</p>
+    <div class="footer-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <div class="footer-bottom">© 2026 APSU 2002 Fundraiser · All rights reserved</div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lbClose" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next">›</button>
+    <div class="lightbox-content">
+      <div class="lightbox-img" id="lbImg"></div>
+      <p class="lightbox-caption" id="lbCaption"></p>
+    </div>
+  </div>
+
+  <script>
+  // ===== BEFORE / AFTER SLIDER =====
+  (function () {
+    const wrap = document.getElementById('baSlider');
+    const after = document.getElementById('baAfter');
+    const handle = document.getElementById('baHandle');
+    let dragging = false;
+
+    function setPos(clientX) {
+      const rect = wrap.getBoundingClientRect();
+      let x = ((clientX - rect.left) / rect.width) * 100;
+      x = Math.max(5, Math.min(95, x));
+      after.style.clipPath = `inset(0 0 0 ${x}%)`;
+      handle.style.left = x + '%';
+    }
+
+    handle.addEventListener('mousedown', () => { dragging = true; });
+    window.addEventListener('mouseup', () => { dragging = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (dragging) setPos(e.clientX);
+    });
+
+    // Touch
+    handle.addEventListener('touchstart', (e) => { dragging = true; e.preventDefault(); }, { passive: false });
+    window.addEventListener('touchend', () => { dragging = false; });
+    window.addEventListener('touchmove', (e) => {
+      if (dragging && e.touches[0]) setPos(e.touches[0].clientX);
+    }, { passive: true });
+
+    // Click anywhere on slider
+    wrap.addEventListener('click', (e) => {
+      if (e.target === handle) return;
+      setPos(e.clientX);
+    });
+  })();
+
+  // ===== ANIMATED COUNTERS =====
+  (function () {
+    const nums = document.querySelectorAll('.stat-number');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1400;
+        const start = performance.now();
+
+        function tick(now) {
+          const p = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+
+    nums.forEach(n => observer.observe(n));
+  })();
+
+  // ===== LIGHTBOX GALLERY =====
+  (function () {
+    const items = [...document.querySelectorAll('.gallery-item')];
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbCaption = document.getElementById('lbCaption');
+    let index = 0;
+
+    const gradients = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6'];
+
+    function open(i) {
+      index = i;
+      const item = items[index];
+      const caption = item.dataset.caption || '';
+      lbImg.className = 'lightbox-img ' + gradients[index % gradients.length];
+      lbImg.textContent = caption;
+      lbCaption.textContent = caption;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function nav(dir) {
+      index = (index + dir + items.length) % items.length;
+      open(index);
+    }
+
+    items.forEach((item, i) => {
+      item.addEventListener('click', () => open(i));
+    });
+
+    document.getElementById('lbClose').addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', () => nav(-1));
+    document.getElementById('lbNext').addEventListener('click', () => nav(1));
+
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') nav(-1);
+      if (e.key === 'ArrowRight') nav(1);
+    });
+  })();
+  </script>
+</body>
+</html>
