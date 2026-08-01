@@ -878,15 +878,27 @@
     const gradients = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6'];
 
     function open(i) {
-      index = i;
-      const item = items[index];
-      const caption = item.dataset.caption || '';
-      lbImg.className = 'lightbox-img ' + gradients[index % gradients.length];
-      lbImg.textContent = caption;
-      lbCaption.textContent = caption;
-      lb.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+  index = i;
+  const item = items[index];
+  const caption = item.dataset.caption || '';
+  const img = item.querySelector('img');
+
+  if (img) {
+    lbImg.className = 'lightbox-img';
+    lbImg.style.backgroundImage = 'url(' + img.src + ')';
+    lbImg.style.backgroundSize = 'cover';
+    lbImg.style.backgroundPosition = 'center';
+    lbImg.textContent = '';
+  } else {
+    lbImg.className = 'lightbox-img ' + gradients[index % gradients.length];
+    lbImg.style.backgroundImage = '';
+    lbImg.textContent = caption;
+  }
+
+  lbCaption.textContent = caption;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
     function close() {
       lb.classList.remove('open');
