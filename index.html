@@ -825,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let amount = selectedAmount;
     if (customAmount) amount = parseFloat(customAmount);
 
-    // ----- Validation (same as before) -----
+    // ----- Validation -----
     if (!amount || amount < 10) {
       alert('Please select or enter a valid amount (minimum GH¢10)');
       return;
@@ -860,78 +860,30 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.textContent = 'Processing...';
 
     try {
-  // Temporary: generate reference on the frontend (for testing only)
-  const clientReference = 'APSU_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+      // Temporary: generate reference on the frontend (for testing on GitHub Pages)
+      const clientReference = 'APSU_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
 
-  let description = `APSU 2002 Teachers Accommodation - ${name}`;
-  if (isApsunian) {
-    description += ` | Year: ${yearGroup}`;
-    if (yearGroup === '2002') {
-      description += ` | Class: ${classGroup} | House: ${house}`;
-    }
-  }
-  description += ` | Email: ${email}`;
-
-  const purchaseInfo = {
-    amount: Number(amount),
-    purchaseDescription: description,
-    customerPhoneNumber: toMsisdn(phone),
-    clientReference: clientReference
-  };
-
-  const config = {
-    branding: 'enabled',
-    callbackUrl: 'https://YOUR-DOMAIN.com/api/hubtel-webhook', // still needed
-    merchantAccount: YOUR_MERCHANT_ACCOUNT_NUMBER,             // e.g. 11334
-    basicAuth: 'YOUR_BASIC_AUTH_STRING'                        // Base64(ClientId:ClientSecret)
-  };
-
-  checkout.openModal({
-    purchaseInfo,
-    config,
-    callBacks: {
-      onInit: () => console.log('Hubtel modal initialised'),
-      onLoad: () => console.log('Checkout loaded'),
-      onPaymentSuccess: (response) => {
-        console.log('Payment success:', response);
-        checkout.closePopUp();
-        alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + clientReference);
-      },
-      onPaymentFailure: (response) => {
-        console.log('Payment failed:', response);
-        alert('Payment was not completed. Please try again.');
-      },
-      onClose: () => console.log('Modal closed by user')
-    }
-  });
-
-} catch (err) {
-  console.error(err);
-  alert(err.message || 'Something went wrong. Please try again.');
-} finally {
-  btn.disabled = false;
-  btn.textContent = originalText;
-}
-
-      const data = await res.json();
-
-      if (!res.ok || !data.clientReference) {
-        throw new Error(data.message || 'Could not start payment. Please try again.');
+      let description = `APSU 2002 Teachers Accommodation - ${name}`;
+      if (isApsunian) {
+        description += ` | Year: ${yearGroup}`;
+        if (yearGroup === '2002') {
+          description += ` | Class: ${classGroup} | House: ${house}`;
+        }
       }
+      description += ` | Email: ${email}`;
 
-      // 2. Open Hubtel Modal
       const purchaseInfo = {
         amount: Number(amount),
-        purchaseDescription: data.description,
+        purchaseDescription: description,
         customerPhoneNumber: toMsisdn(phone),
-        clientReference: data.clientReference
+        clientReference: clientReference
       };
 
       const config = {
         branding: 'enabled',
-        callbackUrl: 'https://YOUR-DOMAIN.com/api/hubtel-webhook', // ← your webhook URL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT_NUMBER,            // e.g. 11334
-        basicAuth: 'YOUR_BASIC_AUTH_STRING'                       // Base64(ClientId:ClientSecret)
+        callbackUrl: 'https://YOUR-DOMAIN.com/api/hubtel-webhook', // change later
+        merchantAccount: YOUR_MERCHANT_ACCOUNT_NUMBER,             // e.g. 11334
+        basicAuth: 'YOUR_BASIC_AUTH_STRING'                        // Base64(ClientId:ClientSecret)
       };
 
       checkout.openModal({
@@ -943,8 +895,7 @@ document.addEventListener('DOMContentLoaded', function () {
           onPaymentSuccess: (response) => {
             console.log('Payment success:', response);
             checkout.closePopUp();
-            alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + data.clientReference);
-            // Optional: window.location.href = '/thank-you.html';
+            alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + clientReference);
           },
           onPaymentFailure: (response) => {
             console.log('Payment failed:', response);
