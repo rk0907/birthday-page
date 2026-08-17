@@ -860,21 +860,58 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.textContent = 'Processing...';
 
     try {
-      // 1. Call your backend first (creates reference + saves donor data)
-      const res = await fetch('/api/create-donation', {   // ← change this URL
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          amount,
-          isApsunian,
-          yearGroup: yearGroup || null,
-          classGroup: classGroup || null,
-          house: house || null
-        })
-      });
+  // Temporary: generate reference on the frontend (for testing only)
+  const clientReference = 'APSU_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
+  let description = `APSU 2002 Teachers Accommodation - ${name}`;
+  if (isApsunian) {
+    description += ` | Year: ${yearGroup}`;
+    if (yearGroup === '2002') {
+      description += ` | Class: ${classGroup} | House: ${house}`;
+    }
+  }
+  description += ` | Email: ${email}`;
+
+  const purchaseInfo = {
+    amount: Number(amount),
+    purchaseDescription: description,
+    customerPhoneNumber: toMsisdn(phone),
+    clientReference: clientReference
+  };
+
+  const config = {
+    branding: 'enabled',
+    callbackUrl: 'https://YOUR-DOMAIN.com/api/hubtel-webhook', // still needed
+    merchantAccount: YOUR_MERCHANT_ACCOUNT_NUMBER,             // e.g. 11334
+    basicAuth: 'YOUR_BASIC_AUTH_STRING'                        // Base64(ClientId:ClientSecret)
+  };
+
+  checkout.openModal({
+    purchaseInfo,
+    config,
+    callBacks: {
+      onInit: () => console.log('Hubtel modal initialised'),
+      onLoad: () => console.log('Checkout loaded'),
+      onPaymentSuccess: (response) => {
+        console.log('Payment success:', response);
+        checkout.closePopUp();
+        alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + clientReference);
+      },
+      onPaymentFailure: (response) => {
+        console.log('Payment failed:', response);
+        alert('Payment was not completed. Please try again.');
+      },
+      onClose: () => console.log('Modal closed by user')
+    }
+  });
+
+} catch (err) {
+  console.error(err);
+  alert(err.message || 'Something went wrong. Please try again.');
+} finally {
+  btn.disabled = false;
+  btn.textContent = originalText;
+}
 
       const data = await res.json();
 
