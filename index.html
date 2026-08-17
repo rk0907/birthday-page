@@ -121,13 +121,13 @@
     }
 
     /* ========== HERO ========== */
-.hero {
+    .hero {
   position: relative;
   padding: 5rem 1.5rem 4rem;
   text-align: center;
   background:
-    linear-gradient(180deg, rgba(232,235,230,0.88) 0%, rgba(244,246,241,0.92) 100%),
-    url('Handing over.JPG') center/cover no-repeat;
+    linear-gradient(180deg, rgba(232,235,230,0.75) 0%, rgba(244,246,241,0.75) 100%),
+    url('3D Money.PNG') center/cover no-repeat;
   overflow: hidden;
 }
 
@@ -560,7 +560,7 @@
     </div>
     <h1>Help build homes<br>for our <span class="highlight">teachers</span></h1>
     <p class="hero-sub">
-      Housing for educators is a lasting investment. Support the 14-unit Teachers’ Accommodation Project and give every APSUnian teacher a place to call home.
+      Housing for educators is a lasting investment. Support the 14-unit Teachers’ Accommodation Project and give every teacher a place to call home.
     </p>
     <div class="hero-actions">
       <a href="#donate" class="btn-primary">
@@ -591,7 +591,7 @@
       </div>
       <div class="card">
         <div class="card-icon"><i class="fas fa-heart"></i></div>
-        <h3>Why It Matters</h3>
+        <h3>Why this Project</h3>
         <p>Stable housing near school means teachers can focus on teaching instead of commuting or housing stress. Students feel the difference</p>
       </div>
       <div class="card">
@@ -683,16 +683,16 @@
           <label for="house">House *</label>
           <select id="house" name="house">
             <option value="" disabled selected>Select your house</option>
-            <option value="St. John's">St. John's</option>
-            <option value="St. Peter's">St. Peter's</option>
-            <option value="Fr Glynn">Fr Glynn</option>
-            <option value="Fr Kelly">Fr Kelly</option>
-            <option value="St George's">St George's</option>
-            <option value="St Luke's">St Luke's</option>
-            <option value="St Theresa's">St Theresa's</option>
-            <option value="St. Stephen's">St. Stephen's</option>
-            <option value="St Patrick's">St Patrick's</option>
-            <option value="St Joseph's">St Joseph's</option>
+            <option value="St. John's">St.John's</option>
+            <option value="St. Peter's">St.Peter's</option>
+            <option value="Fr Glynn">Fr.Glynn</option>
+            <option value="Fr Kelly">Fr.Kelly</option>
+            <option value="St George's">St.George's</option>
+            <option value="St Luke's">St.Luke's</option>
+            <option value="St Theresa's">St.Theresa's</option>
+            <option value="St. Stephen's">St.Stephen's</option>
+            <option value="St Patrick's">St.Patrick's</option>
+            <option value="St Joseph's">St.Joseph's</option>
             <option value="Nduom">Nduom</option>
           </select>
         </div>
@@ -715,150 +715,221 @@
     <div class="footer-bottom">© 2026 APSU 2002 Fundraiser · All rights reserved</div>
   </footer>
 
-  <!-- Paystack Inline -->
-  <script src="https://js.paystack.co/v1/inline.js"></script>
+<!-- Hubtel Checkout SDK -->
+<script src="https://unified-pay.hubtel.com/js/v1/checkout.js"></script>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-    // Year groups 2026 → 1975
-    const yearSelect = document.getElementById('yearGroup');
-    for (let y = 2026; y >= 1975; y--) {
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      yearSelect.appendChild(opt);
+  // ============================================
+  // 1. Year groups 2026 → 1975
+  // ============================================
+  const yearSelect = document.getElementById('yearGroup');
+  for (let y = 2026; y >= 1975; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+
+  // ============================================
+  // 2. Amount buttons
+  // ============================================
+  let selectedAmount = 100;
+  document.querySelectorAll('.amount-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAmount = parseInt(btn.dataset.amount, 10);
+      document.getElementById('customAmount').value = '';
+    });
+  });
+
+  document.getElementById('customAmount').addEventListener('input', function () {
+    if (this.value) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+      selectedAmount = null;
     }
+  });
 
-    // Amount buttons
-    let selectedAmount = 100;
-    document.querySelectorAll('.amount-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedAmount = parseInt(btn.dataset.amount, 10);
-        document.getElementById('customAmount').value = '';
-      });
-    });
+  // ============================================
+  // 3. APSUnian toggle + dependent fields
+  // ============================================
+  const yearGroupSection = document.getElementById('yearGroupSection');
+  const classSection     = document.getElementById('classSection');
+  const houseSection     = document.getElementById('houseSection');
+  const apsuYes          = document.getElementById('apsuYes');
+  const apsuNo           = document.getElementById('apsuNo');
 
-    document.getElementById('customAmount').addEventListener('input', function () {
-      if (this.value) {
-        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-        selectedAmount = null;
-      }
-    });
-
-    // APSUnian toggle
-    const yearGroupSection = document.getElementById('yearGroupSection');
-    const classSection     = document.getElementById('classSection');
-    const houseSection     = document.getElementById('houseSection');
-    const apsuYes          = document.getElementById('apsuYes');
-    const apsuNo           = document.getElementById('apsuNo');
-
-    function updateYearDependentFields() {
-      if (yearSelect.value === '2002') {
-        classSection.classList.remove('hidden');
-        houseSection.classList.remove('hidden');
-      } else {
-        classSection.classList.add('hidden');
-        houseSection.classList.add('hidden');
-        document.getElementById('classGroup').value = '';
-        document.getElementById('house').value = '';
-      }
-    }
-
-    apsuYes.addEventListener('click', () => {
-      apsuYes.classList.add('active');
-      apsuNo.classList.remove('active');
-      yearGroupSection.classList.remove('hidden');
-      yearSelect.value = '2002';
-      updateYearDependentFields();
-    });
-
-    apsuNo.addEventListener('click', () => {
-      apsuNo.classList.add('active');
-      apsuYes.classList.remove('active');
-      yearGroupSection.classList.add('hidden');
+  function updateYearDependentFields() {
+    if (yearSelect.value === '2002') {
+      classSection.classList.remove('hidden');
+      houseSection.classList.remove('hidden');
+    } else {
       classSection.classList.add('hidden');
       houseSection.classList.add('hidden');
-      yearSelect.value = '';
       document.getElementById('classGroup').value = '';
       document.getElementById('house').value = '';
-    });
+    }
+  }
 
-    yearSelect.addEventListener('change', updateYearDependentFields);
+  apsuYes.addEventListener('click', () => {
+    apsuYes.classList.add('active');
+    apsuNo.classList.remove('active');
+    yearGroupSection.classList.remove('hidden');
+    yearSelect.value = '2002';
+    updateYearDependentFields();
+  });
 
-    // Donate + Paystack (only ONE handleDonate)
-    window.handleDonate = function (e) {
-      e.preventDefault();
+  apsuNo.addEventListener('click', () => {
+    apsuNo.classList.add('active');
+    apsuYes.classList.remove('active');
+    yearGroupSection.classList.add('hidden');
+    classSection.classList.add('hidden');
+    houseSection.classList.add('hidden');
+    yearSelect.value = '';
+    document.getElementById('classGroup').value = '';
+    document.getElementById('house').value = '';
+  });
 
-      const name         = document.getElementById('name').value.trim();
-      const email        = document.getElementById('email').value.trim();
-      const phone        = document.getElementById('phone').value.trim();
-      const customAmount = document.getElementById('customAmount').value;
-      const isApsunian   = apsuYes.classList.contains('active');
-      const yearGroup    = yearSelect.value;
-      const classGroup   = document.getElementById('classGroup').value;
-      const house        = document.getElementById('house').value;
+  yearSelect.addEventListener('change', updateYearDependentFields);
 
-      let amount = selectedAmount;
-      if (customAmount) amount = parseFloat(customAmount);
+  // ============================================
+  // 4. Helpers
+  // ============================================
+  function toMsisdn(phone) {
+    if (!phone) return '233000000000';
+    let p = String(phone).replace(/\D/g, '');
+    if (p.startsWith('0')) p = '233' + p.slice(1);
+    if (!p.startsWith('233')) p = '233' + p;
+    return p;
+  }
 
-      if (!amount || amount < 10) {
-        alert('Please select or enter a valid amount (minimum GH¢10)');
+  // ============================================
+  // 5. Hubtel Modal – main donate handler
+  // ============================================
+  const checkout = new CheckoutSdk();
+
+  window.handleDonate = async function (e) {
+    e.preventDefault();
+
+    const name         = document.getElementById('name').value.trim();
+    const email        = document.getElementById('email').value.trim();
+    const phone        = document.getElementById('phone').value.trim();
+    const customAmount = document.getElementById('customAmount').value;
+    const isApsunian   = apsuYes.classList.contains('active');
+    const yearGroup    = yearSelect.value;
+    const classGroup   = document.getElementById('classGroup').value;
+    const house        = document.getElementById('house').value;
+
+    let amount = selectedAmount;
+    if (customAmount) amount = parseFloat(customAmount);
+
+    // ----- Validation (same as before) -----
+    if (!amount || amount < 10) {
+      alert('Please select or enter a valid amount (minimum GH¢10)');
+      return;
+    }
+
+    if (!apsuYes.classList.contains('active') && !apsuNo.classList.contains('active')) {
+      alert('Please indicate if you are an APSUnian');
+      return;
+    }
+
+    if (isApsunian) {
+      if (!yearGroup) {
+        alert('Please select your year group');
         return;
       }
-
-      if (!apsuYes.classList.contains('active') && !apsuNo.classList.contains('active')) {
-        alert('Please indicate if you are an APSUnian');
-        return;
-      }
-
-      if (isApsunian) {
-        if (!yearGroup) {
-          alert('Please select your year group');
+      if (yearGroup === '2002') {
+        if (!classGroup) {
+          alert('Please select your class');
           return;
         }
-        if (yearGroup === '2002') {
-          if (!classGroup) {
-            alert('Please select your class');
-            return;
-          }
-          if (!house) {
-            alert('Please select your house');
-            return;
-          }
+        if (!house) {
+          alert('Please select your house');
+          return;
         }
       }
+    }
 
-      const amountInPesewas = Math.round(amount * 100);
+    // ----- Disable button while processing -----
+    const btn = document.querySelector('.donate-btn');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
 
-      const handler = PaystackPop.setup({
-        key: 'pk_test_7ef8a30ba117b553c81bbebdfd8c4ed97bcf15e5',
-        email: email,
-        amount: amountInPesewas,
-        currency: 'GHS',
-        ref: 'APSU_' + Date.now(),
-        metadata: {
-          custom_fields: [
-            { display_name: 'Full Name', variable_name: 'full_name', value: name },
-            { display_name: 'Phone', variable_name: 'phone', value: phone || 'N/A' },
-            { display_name: 'APSUnian', variable_name: 'apsunian', value: isApsunian ? 'Yes' : 'No' },
-            { display_name: 'Year Group', variable_name: 'year_group', value: yearGroup || 'N/A' },
-            { display_name: 'Class', variable_name: 'class', value: classGroup || 'N/A' },
-            { display_name: 'House', variable_name: 'house', value: house || 'N/A' }
-          ]
-        },
-        callback: function (response) {
-          alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + response.reference);
-        },
-        onClose: function () {}
+    try {
+      // 1. Call your backend first (creates reference + saves donor data)
+      const res = await fetch('/api/create-donation', {   // ← change this URL
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          amount,
+          isApsunian,
+          yearGroup: yearGroup || null,
+          classGroup: classGroup || null,
+          house: house || null
+        })
       });
 
-      handler.openIframe();
-    };
+      const data = await res.json();
 
-  }); // end DOMContentLoaded
-  </script>
+      if (!res.ok || !data.clientReference) {
+        throw new Error(data.message || 'Could not start payment. Please try again.');
+      }
+
+      // 2. Open Hubtel Modal
+      const purchaseInfo = {
+        amount: Number(amount),
+        purchaseDescription: data.description,
+        customerPhoneNumber: toMsisdn(phone),
+        clientReference: data.clientReference
+      };
+
+      const config = {
+        branding: 'enabled',
+        callbackUrl: 'https://YOUR-DOMAIN.com/api/hubtel-webhook', // ← your webhook URL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT_NUMBER,            // e.g. 11334
+        basicAuth: 'YOUR_BASIC_AUTH_STRING'                       // Base64(ClientId:ClientSecret)
+      };
+
+      checkout.openModal({
+        purchaseInfo,
+        config,
+        callBacks: {
+          onInit: () => console.log('Hubtel modal initialised'),
+          onLoad: () => console.log('Checkout loaded'),
+          onPaymentSuccess: (response) => {
+            console.log('Payment success:', response);
+            checkout.closePopUp();
+            alert('Thank you, ' + name + '!\nPayment successful.\nReference: ' + data.clientReference);
+            // Optional: window.location.href = '/thank-you.html';
+          },
+          onPaymentFailure: (response) => {
+            console.log('Payment failed:', response);
+            alert('Payment was not completed. Please try again.');
+          },
+          onClose: () => {
+            console.log('Modal closed by user');
+          },
+          onFeesChanged: (fees) => console.log('Fees changed:', fees)
+        }
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  };
+
+});
+</script>
 </body>
 </html>
